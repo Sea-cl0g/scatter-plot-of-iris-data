@@ -5,8 +5,8 @@ import irisData from "./data/iris.json";
 
 export default function App() {
   const [axis, setAxis] = useState({
-    x: "sepal_length",
-    y: "sepal_width"
+    x: "sepalLength",
+    y: "sepalWidth"
   });
 
   return (
