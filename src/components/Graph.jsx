@@ -3,11 +3,11 @@ import * as d3 from "d3";
 
 
 export default function Graph({ axis, data }) {
-    const width = 500;
+    const width = 600;
     const height = 500;
     const graphTransform = "translate(50,50)";
-    const plotWidth = width - 70;
-    const plotHeight = height - 70;
+    const plotWidth = 400;
+    const plotHeight = 400;
 
     const plotData = [];
     for (const obj of data) {
@@ -50,16 +50,24 @@ export default function Graph({ axis, data }) {
                         yScale={yScale}
                     />
                 </g>
-                <g>
-
-                </g>
+                <Series x={plotWidth + 100} y={40} data={visibleSpecies} />
             </svg>
         </div>
     );
 }
 
-function Series() {
-
+function Series({ x, y, data }) {
+    const entries = Object.entries(data);
+    return (
+        <g transform={`translate(${x}, ${y})`}>
+            {entries.map(([species, visible], i) => (
+                <g key={species} transform={`translate(0, ${i * 24})`}>
+                    <rect width="14" height="14" fill="black" stroke="black" />
+                    <text x="20" y="11" fontSize="12">{species}</text>
+                </g>
+            ))}
+        </g>
+    );
 }
 
 function Points({ data, xScale, yScale }) {
