@@ -8,18 +8,18 @@ export default function Graph({ axis, data }) {
     const plotWidth = width - 70;
     const plotHeight = height - 70;
 
-    const plotData = { x: [], y: [] };
+    const plotData = [];
     for (const obj of data) {
-        plotData.x.push(obj[axis.x]);
-        plotData.y.push(obj[axis.y]);
+        const point = { y: obj[axis.x], x: obj[axis.y] }
+        plotData.push(point);
     }
 
     const xScale = useMemo(() => {
-        const [min, max] = d3.extent(plotData.x);
+        const [min, max] = d3.extent(plotData, (p) => p.x);
         return d3.scaleLinear().domain([min ?? 0, max ?? 1]).nice().range([0, plotWidth]);
     }, [plotData]);
     const yScale = useMemo(() => {
-        const [min, max] = d3.extent(plotData.y);
+        const [min, max] = d3.extent(plotData, (p) => p.y);
         return d3.scaleLinear().domain([min ?? 0, max ?? 1]).nice().range([plotHeight, 0]);
     }, [plotData]);
 
