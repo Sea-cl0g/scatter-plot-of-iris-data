@@ -48,9 +48,10 @@ export default function Graph({ axis, data }) {
                         data={plotData}
                         xScale={xScale}
                         yScale={yScale}
+                        visibleSpecies={visibleSpecies}
                     />
                 </g>
-                <Series x={plotWidth + 100} y={40} visibleSpecies={visibleSpecies} setVisibleSpecies={setVisibleSpecies}/>
+                <Series x={plotWidth + 100} y={40} visibleSpecies={visibleSpecies} setVisibleSpecies={setVisibleSpecies} />
             </svg>
         </div>
     );
@@ -76,17 +77,25 @@ function Series({ x, y, visibleSpecies, setVisibleSpecies }) {
     );
 }
 
-function Points({ data, xScale, yScale }) {
+function Points({ data, xScale, yScale, visibleSpecies }) {
     return (
         <g>
-            {data.map((d, i) => (
-                <circle
-                    key={i}
-                    cx={xScale(d.x)}
-                    cy={yScale(d.y)}
-                    r={4}
-                />
-            ))}
+            {data.map((d, i) => {
+                const isVisible = visibleSpecies[d.species];
+                return (
+                    <g
+                        key={i}
+                        style={{
+                            transform: `translate(${xScale(d.x)}px, ${yScale(d.y)}px)`,
+                            transition: "transform 400ms ease, opacity 250ms ease",
+                            opacity: isVisible ? 1 : 0,
+                            pointerEvents: isVisible ? "auto" : "none",
+                        }}
+                    >
+                        <circle r={4} />
+                    </g>
+                );
+            })}
         </g>
     );
 }
