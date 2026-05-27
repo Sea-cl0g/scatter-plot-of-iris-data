@@ -22,7 +22,7 @@ export default function Graph({ axis, data }) {
     });
     const plotColor = {};
     speciesList.map((d, i) => {
-        plotColor[d] = i < defaultPlotColor.length ? defaultPlotColor[i] : genRandomColor(() => { return });
+        plotColor[d] = i < defaultPlotColor.length ? defaultPlotColor[i] : genRandomColor();
     })
 
     const xScale = useMemo(() => {
