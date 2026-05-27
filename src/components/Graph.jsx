@@ -27,6 +27,11 @@ export default function Graph({ axis, data }) {
     const xTicks = useMemo(() => xScale.ticks(10), [xScale]);
     const yTicks = useMemo(() => yScale.ticks(10), [yScale]);
 
+    const [visibleSpecies, setVisibleSpecies] = useState(() => {
+        const speciesList = [...new Set(data.map((d) => d.species))];
+        return Object.fromEntries(speciesList.map((species) => [species, true]));
+    });
+
     return (
         <div>
             <svg width={width} height={height}>
@@ -45,9 +50,16 @@ export default function Graph({ axis, data }) {
                         yScale={yScale}
                     />
                 </g>
+                <g>
+
+                </g>
             </svg>
         </div>
     );
+}
+
+function Series() {
+
 }
 
 function Points({ data, xScale, yScale }) {
