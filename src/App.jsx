@@ -1,28 +1,18 @@
+import { useState } from "react";
+import Graph from "./components/Graph";
+import Settings from "./components/Settings";
+import irisData from "./data/iris.json";
+
 export default function App() {
+  const [axis, setAxis] = useState({
+    x: "sepalLength",
+    y: "sepalWidth"
+  });
+
   return (
     <div>
-      <Settings />
-      <Graph />
+      <Settings axis={axis} setAxis={setAxis} data={irisData} />
+      <Graph axis={axis} data={irisData} />
     </div>
   );
-}
-
-function Settings() {
-  return (
-    <p>test</p>
-  )
-}
-
-function Graph() {
-  const width = 400;
-  const height = 500;
-  return (
-    <div>
-      <svg width={width} height={height}>
-        <g>
-          
-        </g>
-      </svg>
-    </div>
-  )
 }
