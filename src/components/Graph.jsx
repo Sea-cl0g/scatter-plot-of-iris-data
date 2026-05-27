@@ -1,13 +1,13 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import * as d3 from "d3";
 
-const width = 500;
-const height = 500;
-const graphTransform = "translate(50,50)";
 
 export default function Graph({ axis, data }) {
-    const plotWidth = width - 70;
-    const plotHeight = height - 70;
+    const width = 600;
+    const height = 500;
+    const graphTransform = "translate(50,50)";
+    const plotWidth = 400;
+    const plotHeight = 400;
 
     const plotData = [];
     for (const obj of data) {
@@ -27,30 +27,58 @@ export default function Graph({ axis, data }) {
     const xTicks = useMemo(() => xScale.ticks(10), [xScale]);
     const yTicks = useMemo(() => yScale.ticks(10), [yScale]);
 
+    const [visibleSpecies, setVisibleSpecies] = useState(() => {
+        const speciesList = [...new Set(data.map((d) => d.species))];
+        return Object.fromEntries(speciesList.map((species) => [species, true]));
+    });
+
     return (
         <div>
             <svg width={width} height={height}>
-                <Axis
-                    xScale={xScale}
-                    yScale={yScale}
-                    xTicks={xTicks}
-                    yTicks={yTicks}
-                    plotWidth={plotWidth}
-                    plotHeight={plotHeight}
-                />
-                <Points
-                    data={plotData}
-                    xScale={xScale}
-                    yScale={yScale}
-                />
+                <g transform={graphTransform}>
+                    <Axis
+                        xScale={xScale}
+                        yScale={yScale}
+                        xTicks={xTicks}
+                        yTicks={yTicks}
+                        plotWidth={plotWidth}
+                        plotHeight={plotHeight}
+                    />
+                    <Points
+                        data={plotData}
+                        xScale={xScale}
+                        yScale={yScale}
+                    />
+                </g>
+                <Series x={plotWidth + 100} y={40} visibleSpecies={visibleSpecies} setVisibleSpecies={setVisibleSpecies}/>
             </svg>
         </div>
     );
 }
 
-function Points({data, xScale, yScale}) {
+function Series({ x, y, visibleSpecies, setVisibleSpecies }) {
+    const entries = Object.entries(visibleSpecies);
+    const tglClickedSpecies = (name) => {
+        const visible = visibleSpecies;
+        visible[name] = !visible[name];
+        setVisibleSpecies(visible);
+        console.log(visible);
+    }
     return (
-        <g transform={graphTransform}>
+        <g transform={`translate(${x}, ${y})`}>
+            {entries.map(([species, visible], i) => (
+                <g key={species} transform={`translate(0, ${i * 24})`} onClick={() => tglClickedSpecies(species)}>
+                    <rect width="14" height="14" fill="black" stroke="black" />
+                    <text x="20" y="11" fontSize="12">{species}</text>
+                </g>
+            ))}
+        </g>
+    );
+}
+
+function Points({ data, xScale, yScale }) {
+    return (
+        <g>
             {data.map((d, i) => (
                 <circle
                     key={i}
@@ -65,7 +93,7 @@ function Points({data, xScale, yScale}) {
 
 function Axis({ xScale, yScale, xTicks, yTicks, plotWidth, plotHeight }) {
     return (
-        <g transform={graphTransform}>
+        <g>
             <line x1="0" y1={plotHeight} x2={plotWidth} y2={plotHeight} stroke="black" />
             <line x1="0" y1="0" x2="0" y2={plotHeight} stroke="black" />
 

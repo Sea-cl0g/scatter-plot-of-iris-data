@@ -18,11 +18,11 @@ export default function Settings({ axis, setAxis, data }) {
         });
     }
 
-    const AxisPulldownMenu = ({ title, onChange }) => {
+    const AxisPulldownMenu = ({ title, value, onChange }) => {
         return (
             <form>
                 <label>{title}</label>
-                <select onChange={onChange}>
+                <select value={value} onChange={onChange}>
                     {COLUMNS.map((name) => {
                         return (
                             <option key={name} value={name}>
@@ -37,8 +37,8 @@ export default function Settings({ axis, setAxis, data }) {
 
     return (
         <div>
-            <AxisPulldownMenu title="x property" onChange={(e) => onXhanged(e.target.value)} />
-            <AxisPulldownMenu title="y property" onChange={(e) => onYhanged(e.target.value)} />
+            <AxisPulldownMenu title="x property" value={axis.x} onChange={(e) => onXhanged(e.target.value)} />
+            <AxisPulldownMenu title="y property" value={axis.y} onChange={(e) => onYhanged(e.target.value)} />
         </div>
     );
 }
