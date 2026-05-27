@@ -1,10 +1,11 @@
 import { useMemo } from "react";
 import * as d3 from "d3";
 
+const width = 500;
+const height = 500;
+const graphTransform = "translate(50,50)";
+
 export default function Graph({ axis, data }) {
-    const width = 500;
-    const height = 500;
-    
     const plotWidth = width - 70;
     const plotHeight = height - 70;
 
@@ -49,7 +50,7 @@ export default function Graph({ axis, data }) {
 
 function Points({data, xScale, yScale}) {
     return (
-        <g>
+        <g transform={graphTransform}>
             {data.map((d, i) => (
                 <circle
                     key={i}
@@ -64,7 +65,7 @@ function Points({data, xScale, yScale}) {
 
 function Axis({ xScale, yScale, xTicks, yTicks, plotWidth, plotHeight }) {
     return (
-        <g transform="translate(50,50)">
+        <g transform={graphTransform}>
             <line x1="0" y1={plotHeight} x2={plotWidth} y2={plotHeight} stroke="black" />
             <line x1="0" y1="0" x2="0" y2={plotHeight} stroke="black" />
 
