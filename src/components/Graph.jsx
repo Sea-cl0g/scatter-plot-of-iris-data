@@ -80,7 +80,12 @@ function Series({ x, y, visibleSpecies, setVisibleSpecies, plotColor }) {
     return (
         <g transform={`translate(${x}, ${y})`}>
             {entries.map(([species, visible], i) => (
-                <g key={species} transform={`translate(0, ${i * 24})`} onClick={() => tglClickedSpecies(species)}>
+                <g
+                    key={species}
+                    transform={`translate(0, ${i * 24})`}
+                    onClick={() => tglClickedSpecies(species)}
+                    style={{ opacity: visible ? 1 : 0.5 }}
+                >
                     <rect width="14" height="14" fill={plotColor[species]} stroke="black" />
                     <text x="20" y="11" fontSize="12">{species}</text>
                 </g>
