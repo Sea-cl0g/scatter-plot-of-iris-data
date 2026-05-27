@@ -4,7 +4,15 @@ export default function Settings({ axis, setAxis, data }) {
         return typeof first[key] === "number" && Number.isFinite(first[key]);
     });
 
-    const AxisPulldownMenu = (title, onChange) => {
+    const onXhanged = (value) => {
+        setAxis([value, axis.x]);
+    }
+
+    const onYhanged = (value) => {
+        setAxis([value, axis.y]);
+    }
+
+    const AxisPulldownMenu = ({ title, onChange }) => {
         return (
             <form>
                 <label>{title}</label>
@@ -24,7 +32,8 @@ export default function Settings({ axis, setAxis, data }) {
     return (
         <div>
             <p>tesat</p>
-            <AxisPulldownMenu />
+            <AxisPulldownMenu title="x property" onChange={onXhanged} />
+            <AxisPulldownMenu title="y property" onChange={onYhanged} />
         </div>
     );
 }
