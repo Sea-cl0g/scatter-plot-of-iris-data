@@ -1,7 +1,27 @@
 export default function Settings({ axis, onAxisChanged, data }) {
+    const first = Array.isArray(data) && data.length > 0 ? data[0] : {};
+    const COLUMNS = Object.keys(first).filter((key) => {
+        return typeof first[key] === "number" && Number.isFinite(first[key]);
+    });
+
+    const AxisPulldownMenu = (title, onChange) => {
+        return (
+            <select onChange={onChange}>
+                {COLUMNS.map((name) => {
+                    return (
+                        <option key={name} value={name}>
+                            {name}
+                        </option>
+                    );
+                })}
+            </select>
+        );
+    }
+
     return (
         <div>
-            <p>test</p>
+            <p>tesat</p>
+            <AxisPulldownMenu />
         </div>
     );
 }
