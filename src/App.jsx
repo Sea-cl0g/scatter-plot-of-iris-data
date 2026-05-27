@@ -1,3 +1,6 @@
+import Graph from "./components/Graph";
+import Settings from "./components/Settings";
+
 export default function App() {
   return (
     <div>
@@ -5,24 +8,4 @@ export default function App() {
       <Graph />
     </div>
   );
-}
-
-function Settings() {
-  return (
-    <p>test</p>
-  )
-}
-
-function Graph() {
-  const width = 400;
-  const height = 500;
-  return (
-    <div>
-      <svg width={width} height={height}>
-        <g>
-          
-        </g>
-      </svg>
-    </div>
-  )
 }
