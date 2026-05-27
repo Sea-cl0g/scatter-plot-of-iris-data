@@ -1,4 +1,4 @@
-export default function Settings({ axis, onAxisChanged, data }) {
+export default function Settings({ axis, setAxis, data }) {
     const first = Array.isArray(data) && data.length > 0 ? data[0] : {};
     const COLUMNS = Object.keys(first).filter((key) => {
         return typeof first[key] === "number" && Number.isFinite(first[key]);

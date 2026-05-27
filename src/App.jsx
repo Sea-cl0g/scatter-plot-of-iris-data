@@ -11,7 +11,7 @@ export default function App() {
 
   return (
     <div>
-      <Settings axis={axis} onAxisChanged={setAxis} data={irisData} />
+      <Settings axis={axis} setAxis={setAxis} data={irisData} />
       <Graph axis={axis} data={irisData} />
     </div>
   );
