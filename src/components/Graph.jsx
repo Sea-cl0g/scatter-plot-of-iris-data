@@ -11,7 +11,7 @@ export default function Graph({ axis, data }) {
 
     const plotData = [];
     for (const obj of data) {
-        const point = { y: obj[axis.x], x: obj[axis.y], species: obj.species }
+        const point = { x: obj[axis.x], y: obj[axis.y], species: obj.species }
         plotData.push(point);
     }
 
