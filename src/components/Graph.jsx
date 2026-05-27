@@ -60,7 +60,7 @@ export default function Graph({ axis, data }) {
 function Series({ x, y, visibleSpecies, setVisibleSpecies }) {
     const entries = Object.entries(visibleSpecies);
     const tglClickedSpecies = (name) => {
-        const visible = visibleSpecies;
+        const visible = structuredClone(visibleSpecies);
         visible[name] = !visible[name];
         setVisibleSpecies(visible);
         console.log(visible);
