@@ -6,15 +6,18 @@ export default function Settings({ axis, setAxis, data }) {
 
     const AxisPulldownMenu = (title, onChange) => {
         return (
-            <select onChange={onChange}>
-                {COLUMNS.map((name) => {
-                    return (
-                        <option key={name} value={name}>
-                            {name}
-                        </option>
-                    );
-                })}
-            </select>
+            <form>
+                <label>{title}</label>
+                <select onChange={onChange}>
+                    {COLUMNS.map((name) => {
+                        return (
+                            <option key={name} value={name}>
+                                {name}
+                            </option>
+                        );
+                    })}
+                </select>
+            </form>
         );
     }
 
