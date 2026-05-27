@@ -37,8 +37,28 @@ export default function Graph({ axis, data }) {
                     plotWidth={plotWidth}
                     plotHeight={plotHeight}
                 />
+                <Points
+                    data={plotData}
+                    xScale={xScale}
+                    yScale={yScale}
+                />
             </svg>
         </div>
+    );
+}
+
+function Points({data, xScale, yScale}) {
+    return (
+        <g>
+            {data.map((d, i) => (
+                <circle
+                    key={i}
+                    cx={xScale(d.x)}
+                    cy={yScale(d.y)}
+                    r={4}
+                />
+            ))}
+        </g>
     );
 }
 
