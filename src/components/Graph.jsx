@@ -50,18 +50,24 @@ export default function Graph({ axis, data }) {
                         yScale={yScale}
                     />
                 </g>
-                <Series x={plotWidth + 100} y={40} data={visibleSpecies} />
+                <Series x={plotWidth + 100} y={40} visibleSpecies={visibleSpecies} setVisibleSpecies={setVisibleSpecies}/>
             </svg>
         </div>
     );
 }
 
-function Series({ x, y, data }) {
-    const entries = Object.entries(data);
+function Series({ x, y, visibleSpecies, setVisibleSpecies }) {
+    const entries = Object.entries(visibleSpecies);
+    const tglClickedSpecies = (name) => {
+        const visible = visibleSpecies;
+        visible[name] = !visible[name];
+        setVisibleSpecies(visible);
+        console.log(visible);
+    }
     return (
         <g transform={`translate(${x}, ${y})`}>
             {entries.map(([species, visible], i) => (
-                <g key={species} transform={`translate(0, ${i * 24})`}>
+                <g key={species} transform={`translate(0, ${i * 24})`} onClick={() => tglClickedSpecies(species)}>
                     <rect width="14" height="14" fill="black" stroke="black" />
                     <text x="20" y="11" fontSize="12">{species}</text>
                 </g>
