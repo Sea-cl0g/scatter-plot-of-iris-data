@@ -22,6 +22,7 @@ export default function Settings({ axis, setAxis, data }) {
         return (
             <form>
                 <label>{title}</label>
+                <br/>
                 <select value={value} onChange={onChange}>
                     {COLUMNS.map((name) => {
                         return (
@@ -36,7 +37,7 @@ export default function Settings({ axis, setAxis, data }) {
     }
 
     return (
-        <div>
+        <div className="settings">
             <AxisPulldownMenu title="x property" value={axis.x} onChange={(e) => onXhanged(e.target.value)} />
             <AxisPulldownMenu title="y property" value={axis.y} onChange={(e) => onYhanged(e.target.value)} />
         </div>
