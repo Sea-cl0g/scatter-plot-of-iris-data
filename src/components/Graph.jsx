@@ -1,11 +1,11 @@
 import { useMemo } from "react";
 import * as d3 from "d3";
 
-const width = 500;
-const height = 500;
-const graphTransform = "translate(50,50)";
 
 export default function Graph({ axis, data }) {
+    const width = 500;
+    const height = 500;
+    const graphTransform = "translate(50,50)";
     const plotWidth = width - 70;
     const plotHeight = height - 70;
 
@@ -30,27 +30,29 @@ export default function Graph({ axis, data }) {
     return (
         <div>
             <svg width={width} height={height}>
-                <Axis
-                    xScale={xScale}
-                    yScale={yScale}
-                    xTicks={xTicks}
-                    yTicks={yTicks}
-                    plotWidth={plotWidth}
-                    plotHeight={plotHeight}
-                />
-                <Points
-                    data={plotData}
-                    xScale={xScale}
-                    yScale={yScale}
-                />
+                <g transform={graphTransform}>
+                    <Axis
+                        xScale={xScale}
+                        yScale={yScale}
+                        xTicks={xTicks}
+                        yTicks={yTicks}
+                        plotWidth={plotWidth}
+                        plotHeight={plotHeight}
+                    />
+                    <Points
+                        data={plotData}
+                        xScale={xScale}
+                        yScale={yScale}
+                    />
+                </g>
             </svg>
         </div>
     );
 }
 
-function Points({data, xScale, yScale}) {
+function Points({ data, xScale, yScale }) {
     return (
-        <g transform={graphTransform}>
+        <g>
             {data.map((d, i) => (
                 <circle
                     key={i}
@@ -65,7 +67,7 @@ function Points({data, xScale, yScale}) {
 
 function Axis({ xScale, yScale, xTicks, yTicks, plotWidth, plotHeight }) {
     return (
-        <g transform={graphTransform}>
+        <g>
             <line x1="0" y1={plotHeight} x2={plotWidth} y2={plotHeight} stroke="black" />
             <line x1="0" y1="0" x2="0" y2={plotHeight} stroke="black" />
 
