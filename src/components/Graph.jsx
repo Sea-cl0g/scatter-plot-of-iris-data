@@ -29,25 +29,38 @@ export default function Graph({ axis, data }) {
     return (
         <div>
             <svg width={width} height={height}>
-                <g transform={`translate(50,50)`}>
-                    <line x1="0" y1={plotHeight} x2={plotWidth} y2={plotHeight} stroke="black" />
-                    <line x1="0" y1="0" x2="0" y2={plotHeight} stroke="black" />
-
-                    {xTicks.map((tick) => (
-                        <g key={`x-${tick}`} transform={`translate(${xScale(tick)}, ${plotHeight})`}>
-                            <line x1="0" y1="0" x2="0" y2="6" stroke="black" />
-                            <text y="20" textAnchor="middle" fontSize="10">{tick}</text>
-                        </g>
-                    ))}
-
-                    {yTicks.map((tick) => (
-                        <g key={`y-${tick}`} transform={`translate(0, ${yScale(tick)})`}>
-                            <line x1="0" y1="0" x2="-6" y2="0" stroke="black" />
-                            <text x="-10" textAnchor="end" dominantBaseline="middle" fontSize="10">{tick}</text>
-                        </g>
-                    ))}
-                </g>
+                <Axis
+                    xScale={xScale}
+                    yScale={yScale}
+                    xTicks={xTicks}
+                    yTicks={yTicks}
+                    plotWidth={plotWidth}
+                    plotHeight={plotHeight}
+                />
             </svg>
         </div>
+    );
+}
+
+function Axis({ xScale, yScale, xTicks, yTicks, plotWidth, plotHeight }) {
+    return (
+        <g transform="translate(50,50)">
+            <line x1="0" y1={plotHeight} x2={plotWidth} y2={plotHeight} stroke="black" />
+            <line x1="0" y1="0" x2="0" y2={plotHeight} stroke="black" />
+
+            {xTicks.map((tick) => (
+                <g key={`x-${tick}`} transform={`translate(${xScale(tick)}, ${plotHeight})`}>
+                    <line x1="0" y1="0" x2="0" y2="6" stroke="black" />
+                    <text y="20" textAnchor="middle" fontSize="10">{tick}</text>
+                </g>
+            ))}
+
+            {yTicks.map((tick) => (
+                <g key={`y-${tick}`} transform={`translate(0, ${yScale(tick)})`}>
+                    <line x1="0" y1="0" x2="-6" y2="0" stroke="black" />
+                    <text x="-10" textAnchor="end" dominantBaseline="middle" fontSize="10">{tick}</text>
+                </g>
+            ))}
+        </g>
     );
 }
