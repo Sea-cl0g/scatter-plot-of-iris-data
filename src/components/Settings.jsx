@@ -5,11 +5,17 @@ export default function Settings({ axis, setAxis, data }) {
     });
 
     const onXhanged = (value) => {
-        setAxis([value, axis.x]);
+        setAxis({
+            x: value,
+            y: axis.y
+        });
     }
 
     const onYhanged = (value) => {
-        setAxis([value, axis.y]);
+        setAxis({
+            x: axis.x,
+            y: value
+        });
     }
 
     const AxisPulldownMenu = ({ title, onChange }) => {
@@ -31,9 +37,8 @@ export default function Settings({ axis, setAxis, data }) {
 
     return (
         <div>
-            <p>tesat</p>
-            <AxisPulldownMenu title="x property" onChange={onXhanged} />
-            <AxisPulldownMenu title="y property" onChange={onYhanged} />
+            <AxisPulldownMenu title="x property" onChange={(e) => onXhanged(e.target.value)} />
+            <AxisPulldownMenu title="y property" onChange={(e) => onYhanged(e.target.value)} />
         </div>
     );
 }
