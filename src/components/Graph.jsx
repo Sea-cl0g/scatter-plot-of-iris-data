@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import * as d3 from "d3";
 
+const defaultPlotColor = ["#7fc97f", "#beaed4", "#fdc086"]
 
 export default function Graph({ axis, data }) {
     const width = 600;
@@ -15,6 +16,15 @@ export default function Graph({ axis, data }) {
         plotData.push(point);
     }
 
+    const speciesList = [...new Set(data.map((d) => d.species))];
+    const [visibleSpecies, setVisibleSpecies] = useState(() => {
+        return Object.fromEntries(speciesList.map((species) => [species, true]));
+    });
+    const plotColor = {};
+    speciesList.map((d, i) => {
+        plotColor[d] = i < defaultPlotColor.length ? defaultPlotColor[i] : genRandomColor(() => { return });
+    })
+
     const xScale = useMemo(() => {
         const [min, max] = d3.extent(plotData, (p) => p.x);
         return d3.scaleLinear().domain([min ?? 0, max ?? 1]).nice().range([0, plotWidth]);
@@ -26,11 +36,6 @@ export default function Graph({ axis, data }) {
 
     const xTicks = useMemo(() => xScale.ticks(10), [xScale]);
     const yTicks = useMemo(() => yScale.ticks(10), [yScale]);
-
-    const [visibleSpecies, setVisibleSpecies] = useState(() => {
-        const speciesList = [...new Set(data.map((d) => d.species))];
-        return Object.fromEntries(speciesList.map((species) => [species, true]));
-    });
 
     return (
         <div>
@@ -49,15 +54,22 @@ export default function Graph({ axis, data }) {
                         xScale={xScale}
                         yScale={yScale}
                         visibleSpecies={visibleSpecies}
+                        plotColor={plotColor}
                     />
                 </g>
-                <Series x={plotWidth + 100} y={40} visibleSpecies={visibleSpecies} setVisibleSpecies={setVisibleSpecies} />
+                <Series
+                    x={plotWidth + 100}
+                    y={40}
+                    visibleSpecies={visibleSpecies}
+                    setVisibleSpecies={setVisibleSpecies}
+                    plotColor={plotColor}
+                />
             </svg>
         </div>
     );
 }
 
-function Series({ x, y, visibleSpecies, setVisibleSpecies }) {
+function Series({ x, y, visibleSpecies, setVisibleSpecies, plotColor }) {
     const entries = Object.entries(visibleSpecies);
     const tglClickedSpecies = (name) => {
         const visible = structuredClone(visibleSpecies);
@@ -69,7 +81,7 @@ function Series({ x, y, visibleSpecies, setVisibleSpecies }) {
         <g transform={`translate(${x}, ${y})`}>
             {entries.map(([species, visible], i) => (
                 <g key={species} transform={`translate(0, ${i * 24})`} onClick={() => tglClickedSpecies(species)}>
-                    <rect width="14" height="14" fill="black" stroke="black" />
+                    <rect width="14" height="14" fill={plotColor[species]} stroke="black" />
                     <text x="20" y="11" fontSize="12">{species}</text>
                 </g>
             ))}
@@ -77,7 +89,7 @@ function Series({ x, y, visibleSpecies, setVisibleSpecies }) {
     );
 }
 
-function Points({ data, xScale, yScale, visibleSpecies }) {
+function Points({ data, xScale, yScale, visibleSpecies, plotColor }) {
     return (
         <g>
             {data.map((d, i) => {
@@ -92,7 +104,7 @@ function Points({ data, xScale, yScale, visibleSpecies }) {
                             pointerEvents: isVisible ? "auto" : "none",
                         }}
                     >
-                        <circle r={4} />
+                        <circle r={4} fill={plotColor[d.species]} />
                     </g>
                 );
             })}
