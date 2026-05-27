@@ -1,4 +1,4 @@
-export default function Graph({ axis }) {
+export default function Graph({ axis, data }) {
     const width = 600;
     const height = 600;
 
