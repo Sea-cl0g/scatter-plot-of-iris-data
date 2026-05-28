@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import * as d3 from "d3";
+import genRandomColor from "../utils/genColor.js";
 
 const defaultPlotColor = ["#7fc97f", "#beaed4", "#fdc086"]
 
@@ -16,14 +17,19 @@ export default function Graph({ axis, data }) {
         plotData.push(point);
     }
 
-    const speciesList = [...new Set(data.map((d) => d.species))];
+    const speciesList = useMemo(() => {
+        return [...new Set(data.map((d) => d.species))];
+    }, [data]);
     const [visibleSpecies, setVisibleSpecies] = useState(() => {
         return Object.fromEntries(speciesList.map((species) => [species, true]));
     });
-    const plotColor = {};
-    speciesList.map((d, i) => {
-        plotColor[d] = i < defaultPlotColor.length ? defaultPlotColor[i] : genRandomColor(() => { return });
-    })
+    const plotColor = useMemo(() => {
+        const colorMap = {};
+        speciesList.map((d, i) => {
+            colorMap[d] = i < defaultPlotColor.length ? defaultPlotColor[i] : genRandomColor();
+        });
+        return colorMap;
+    }, [speciesList]);
 
     const xScale = useMemo(() => {
         const [min, max] = d3.extent(plotData, (p) => p.x);
