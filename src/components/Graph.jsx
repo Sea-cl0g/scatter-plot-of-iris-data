@@ -17,14 +17,19 @@ export default function Graph({ axis, data }) {
         plotData.push(point);
     }
 
-    const speciesList = [...new Set(data.map((d) => d.species))];
+    const speciesList = useMemo(() => {
+        return [...new Set(data.map((d) => d.species))];
+    }, [data]);
     const [visibleSpecies, setVisibleSpecies] = useState(() => {
         return Object.fromEntries(speciesList.map((species) => [species, true]));
     });
-    const plotColor = {};
-    speciesList.map((d, i) => {
-        plotColor[d] = i < defaultPlotColor.length ? defaultPlotColor[i] : genRandomColor();
-    })
+    const plotColor = useMemo(() => {
+        const colorMap = {};
+        speciesList.map((d, i) => {
+            colorMap[d] = i < defaultPlotColor.length ? defaultPlotColor[i] : genRandomColor();
+        });
+        return colorMap;
+    }, [speciesList]);
 
     const xScale = useMemo(() => {
         const [min, max] = d3.extent(plotData, (p) => p.x);
