@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import * as d3 from "d3";
+import genRandomColor from "../utils/genColor.js";
 
 const defaultPlotColor = ["#7fc97f", "#beaed4", "#fdc086"]
 
