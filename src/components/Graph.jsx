@@ -90,7 +90,7 @@ function Series({ x, y, visibleSpecies, setVisibleSpecies, plotColor }) {
                     key={species}
                     transform={`translate(0, ${i * 24})`}
                     onClick={() => tglClickedSpecies(species)}
-                    style={{ opacity: visible ? 1 : 0.5 }}
+                    style={{ opacity: visible ? 1 : 0.5, cursor : "pointer"}}
                 >
                     <rect width="14" height="14" fill={plotColor[species]} stroke="black" />
                     <text x="20" y="11" fontSize="12">{species}</text>
